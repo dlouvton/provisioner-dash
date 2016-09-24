@@ -1,0 +1,84 @@
+extends layout
+
+block content
+  h1(align="center") Raiden Instances Snapshot at '#{report_time}'
+  
+  table 
+    caption #{snapshot.length} Instances recorded
+    tbody 
+      thead
+        tr 
+        th instanceId
+        th user
+        th model
+        th role
+        th component
+        th age (days)
+        th static
+        th key Name -key-pair
+        th type
+        // make name long enough that it only wraps to 2 lines.
+        th ip_DNS_name   
+        th started From
+        th image Id
+        th elb Vip
+        th elb Id
+        th host Key -key-pair
+        th provisionerVersion
+
+    tfoot
+      tr
+        td(colspan=16) #{snapshot.length} records 
+
+    // Return characters to left of first suffix.  If no dot, e.g. '-', return all
+    -var getPrefix = function (name, suffix) { dot=name.indexOf(suffix); return name.substr(0, (dot>0)?dot:name.length) }
+    -var getDotPrefix = function (name) { return getPrefix(name, '.') }
+
+    each item in snapshot
+      // Return value of Tag.  It no value, return '-'
+      -var getTag = function (tagKey) { return (typeof(item["__"+tagKey]) !== 'undefined') ? item["__"+tagKey] : '-' }
+
+      tr
+        //dump=JSON.stringify(item, null, 2)
+
+        // {   "key" : "provisioner_ver",     "value" : "provisioner-1.4-SNAPSHOT\n"  }, 
+        // {   "key" : "component",      "value" : "funnel__1"  }, 
+        // {   "key" : "elb_id",         "value" : "sdhruvakumar-13-elb-000000000015996.public.raiden.sfdc.net"   },
+        // {   "key" : "elb_vip",        "value" : "10.224.57.177"   },
+        // {   "key" : "host_key",       "value" : "dlouvton-key-pair"  },
+        // {   "key" " "model",          "value" : "radio.json" }, 
+        // {   "key" : "provisioned_at", "value" : "11-13-14 01:15"  }, 
+        // {   "key" : "role",           "value" : "funnel"  }, 
+        // {   "key" : "setup_ostype",   "value" : "linux-gnu"   }
+        // {   "key" : "started_from",   "value" : "ip-192-168-7-174"  }, 
+        // {   "key" : "static",         "value" : "false"  }, 
+        // {   "key" : "user",           "value" : "dlouvton"  }
+
+        -if (typeof(item.tags) !== 'undefined')
+           // store tags as properties of item prefixed by __
+           each tag in item.tags
+              -item["__"+tag.key+""] = tag.value
+
+        td 
+           a(href="/Instance/#{report_time}/#{item.instanceId}")= item.instanceId  
+        td=getTag("user")    
+        td=getTag("model")
+        td=getTag("role")
+        td=getTag("component")
+
+        -created=getTag("provisioned_at")    // 86,400,000 = (24*60*60*1000) = milliseconds in a day
+        -days=(created == '-')?'-' :  ((new Date()-new Date(created))/86400000).toFixed(1)
+        td=days
+
+        td=getTag("static")
+        td=getPrefix( (typeof(item.keyName)!== 'undefined')?item.keyName:'-', "-key-pair")
+        td=item.instanceType
+        td=getDotPrefix(item.privateDnsName)
+        td=getTag("started_from")
+        td=item.imageId
+        td=getTag("elb_vip")
+        td=getDotPrefix(getTag("elb_id"))
+        td=getPrefix(getTag("host_key"), "-key-pair")
+        td=getTag("provisioner_ver")
+
+

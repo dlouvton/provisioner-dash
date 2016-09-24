@@ -1,0 +1,30 @@
+extends layout
+
+block content
+ table(align=center)
+    caption #{title}
+     tbody
+      thead
+       tr
+        th createdAt
+        th environmentStatus
+        th setupResult
+        th modelName
+        th setupDuration
+        th user
+        th numComponents
+      tfoot
+        tr
+        td(colspan=7) <br> #{environments.length} records 
+      each environment in environments
+        tr
+          -created=new Date(+environment._run_id)   
+          td
+           a(href="/Environment/#{environment._run_id}")=created
+          td=environment.environmentStatus
+          td=environment.setupResult
+          td=environment.modelName
+          td=environment.setupDuration
+          td=environment.user
+          td=environment.numComponents
+                    

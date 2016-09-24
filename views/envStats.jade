@@ -1,0 +1,56 @@
+extends layout
+
+block content
+  table(align=center)
+    caption Environments Provisioned by provisioner
+    tbody 
+      thead
+        tr 
+          th Model
+          th Error
+          th Interrupted
+          th Ok
+          th Total
+
+    -countModels=0
+    -countErr=0
+    -countInterrupted=0
+    -countReady=0
+    
+    each record in envStats
+      -countModels++
+      tr
+         -haserror=0
+         -interrupted=0
+         -ok=0
+         each res in record.setupResults
+           -if (res.type == "ERROR")  
+             -haserror=res.count
+             -countErr+=haserror
+           -if (res.type == "BUSY")
+             -interrupted=res.count
+             -countInterrupted+=interrupted
+           -if (res.type == "READY")
+             -ok=res.count
+             -countReady+=ok
+            
+        td
+          a(href="/Environments/#{record._id}")=record._id
+        td=haserror
+        td=interrupted
+        td=ok
+        td=ok+interrupted+haserror
+
+    tfoot
+      -total=countReady+countInterrupted+countErr
+      -var convertCount = function (count) { return count + " (" +(count/total*100).toFixed(1) + "%)"}
+
+      td
+        a(href="/Environments")=countModels + " models"
+      td=convertCount(countErr)
+      td=convertCount(countInterrupted)
+      td=convertCount(countReady)
+      td
+        a(href="/Environments")=total
+  h3
+   a(href="/Environments")="View all Environments"

@@ -1,0 +1,32 @@
+extends layout
+block content
+    table(align=center)
+caption Execution History
+    tbody
+        thead
+            tr
+                th Report
+                th Duration
+                th Model
+                th Tests
+                th Failed
+                th Errors
+                th TestNG Report
+                th Log
+        tfoot
+            tr
+                td(colspan=7) <br> #{runs.length} records
+        each run in runs
+            -filteredRun=run.testcase.filter(function(test){return typeof(test.skipped) == 'undefined'});
+            tr
+                td
+                    a(href="/Run/#{run._run_id}")= run._timestamp
+                td=run._time
+                td=run._model_path.replace(/^.*[\\\/]/, '')
+                td=filteredRun.length
+                td=run._failures
+                td=run._errors
+                td
+                    a(href="/v1/file/#{run._run_id}?filename=mandm-itest.html" onclick="javascript:event.target.port=8080")="mandm-itest.html"
+                td
+                    a(href="/v1/file/#{run._run_id}/plain?filename=out.log" onclick="javascript:event.target.port=8080")="out.log"

@@ -1,0 +1,28 @@
+extends layout
+
+block content
+
+  table(align=center) 
+   caption Instance Details
+    tbody 
+     thead
+      tr 
+        th key
+        th value
+     each item in instance
+      -if (typeof(item.tags) !== 'undefined')
+           each tag in item.tags
+              -item["_"+tag.key+""] = tag.value
+      tr
+       td state
+       td=item.state.name
+      each value,key in item
+        -if(["state", "tags", "_id"].indexOf(key)<0)
+          tr
+           td=key
+           td=value
+        
+
+   
+ 
+                        

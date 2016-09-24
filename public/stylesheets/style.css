@@ -1,0 +1,80 @@
+table {
+ font-size: 95%;
+ font-family: 'Lucida Grande', Helvetica, verdana, sans-serif;
+ background-color:#fff;
+ border-collapse: collapse;
+ min-width: 40%;
+ max-width: 80%;
+ align: center;
+ line-height: 1.2em;
+}
+caption {
+ font-size: 30px;
+ font-weight: bold;
+ color: #002084;
+ text-align: left;
+ padding: 20px 0px;
+ margin-bottom: 2px;
+ text-transform: capitalize;
+}
+thead th {
+ border-right: 2px solid #fff;
+ color:#fff;
+ text-align:center;
+ padding:3px;
+ height:25px;
+ background-color: #004080;
+}
+tfoot {
+ color:#002084;
+ padding:2px;
+ font-size:1.2em; 
+ font-weigth: bold;
+ margin-top:6px;
+ border-top: 6px solid #004080;
+ border-bottom: 6px solid #004080;
+}
+tbody tr {
+ background-color:#fff;
+ border-bottom: 2px solid #c0c0c0;
+}
+tbody td {
+ color:#002084;
+ padding:6px;
+ text-align:left;
+}
+tbody th {
+ text-align:left;
+ padding: 2px;
+}
+tbody td a, tbody th a {
+ color:#002084;
+ text-decoration:underline;
+ font-weight:normal; 
+}
+tbody td a:hover, tbody th a:hover {
+ text-decoration:none;
+}
+.red {
+    white-space: pre;
+    color: red;
+}
+
+ul.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li.nav {
+    float: left;
+}
+
+a.nav {
+    display: block;
+    width: 130px;
+}
+
+
+

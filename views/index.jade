@@ -1,0 +1,9 @@
+extends layout
+        
+block content
+        
+  h1= title
+  p Welcome to #{title}. Here are some of the reports available to you:
+  p <a href='/Tests'>Test List:</a> List of tests written using provisioner. You may click on every test to see Test History (i.e. <a href='/Test/testBasicKafkaInsertAndValidation'>here</a>)
+  p <a href='/Runs'>Run History:</a> List of the previous test runs. You may click on every run to see Run Details (i.e. <a href='/Run/1413796092280'>here</a>)
+   

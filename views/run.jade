@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  h1(align="center") Suite '#{run._name}' (#{run._timestamp})
+  each value, key in run
+    -if(["testcase", "_id", "_run_id", "_tests"].indexOf(key)<0)
+      p=key+": "+value
+  
+  //starting at one point (after a timestamp) we should display the corresponding environment
+  -if (run._run_id > 1416957321981)
+    a(href="/Environment/#{run._run_id}")='Link to Environment Details (if exists)'  
+   
+  -obj=run.testcase.filter(function(test){return typeof(test.skipped) == 'undefined'}); 
+  table 
+    caption #{obj.length} Test cases 
+     tbody 
+      thead
+       tr 
+        th Name
+        th Time
+        th Classname
+        th Result
+       tfoot
+        tr
+         td(colspan=4) #{obj.length} records 
+       each item in obj
+               tr
+                  td #{item._name}
+                  td #{item._time}
+                  td #{item._classname}
+                  -if(typeof(item.failure) !== 'undefined')
+                    td.red Failed: #{item.failure._message} 
+                  -else
+                    td Passed      
+     
+   
+                        

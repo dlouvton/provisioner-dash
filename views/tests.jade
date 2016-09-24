@@ -1,0 +1,22 @@
+extends layout
+
+block content
+ -count=0
+  head
+   table 
+    caption Test Case List
+     tbody 
+      thead
+       tr 
+        th Name
+       
+     each test in testlist
+      -if(test.indexOf("@") < 0)
+       -count++
+        tr
+          td 
+            a(href="/Test/#{test}")= test
+     tfoot
+        tr
+        td <br> #{count} tests
+          

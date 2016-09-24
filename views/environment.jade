@@ -1,0 +1,38 @@
+extends layout
+
+block content
+
+        
+  table(align=center) 
+   caption Environment Details 
+    tbody 
+     thead
+      tr 
+        th key
+        th value
+     each value, key in environment
+       -if(["componentsStatus"].indexOf(key)<0)
+        tr
+          td=key
+          -convertValue=function(key,value) {return (key.match(/startTime|testDuration|destroyedAt/)) ? new Date(+value) : value};
+          td=convertValue(key,value)
+     -var json=environment.componentsStatus.replace(/(=)/g,'":"').replace(/(, )/g,'"$1"').replace('{','{"').replace('}','"}');
+     -envStatus=JSON.parse(json)
+     -var sortableEnvStatus = [];
+     -for (var record in envStatus)
+      -sortableEnvStatus.push([record, envStatus[record]])
+  table(align=center) 
+   caption Components Status (after Setup)
+    tbody 
+     thead
+      tr 
+        th key
+        th value  
+     each value in sortableEnvStatus.sort() 
+       tr
+          td=value[0]
+          td=value[1]
+
+   
+ 
+                        

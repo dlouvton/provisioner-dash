@@ -1,0 +1,33 @@
+extends layout
+block content
+    table(align=center)
+        caption TestRunner List
+            tbody
+                thead
+                    tr
+                        th createdAt
+                        th user
+                        th ip
+                        th elb_id
+                        th started_from
+                        th instance_id
+                        th registration_id
+                        th key_pair
+                        th install_type
+                        th passphrase
+                tfoot
+                    tr
+                    td(colspan=7) #{testrunners.length} records
+                each testrunner in testrunners
+                    tr
+                        td=testrunner.date
+                        td=testrunner.user
+                        td=testrunner.elb_ip
+                        td=testrunner.elb_id
+                        td=testrunner.started_from
+                        td=testrunner.instance_id
+                        td=testrunner._id
+                        td=testrunner.key_pair
+                        td=testrunner.install_type
+                        td=testrunner.passphrase
+                        

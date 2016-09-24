@@ -1,0 +1,46 @@
+extends layout
+
+block content
+
+  table(align=center) 
+    caption Instance Usage History 
+    tbody 
+      thead
+        tr 
+          th ReportTime
+          th small
+          th medium
+          th large
+          th xlarge
+          th Units
+
+    -count=0
+    each snapshot in snapshots
+      -count++
+      tr
+         -small=0
+         -medium=0
+         -large=0
+         -xLarge=0
+         each instanceType in snapshot.instanceTypes
+           -if (instanceType.type == "m1.small")  
+             -small=instanceType.count
+           -if (instanceType.type == "m1.medium")  
+             -medium=instanceType.count            
+           -if (instanceType.type == "m1.large")  
+             -large=instanceType.count
+           -if (instanceType.type == "m1.xlarge")  
+             -xLarge=instanceType.count
+            
+        td 
+          a(href="/InstancesSnapshot/#{snapshot._id}")=snapshot._id
+        td=small
+        td=medium
+        td=large
+        td=xLarge
+        td=(xLarge*8)+(large*4)+(medium*2)+small
+ 
+    tfoot
+      tr 
+      td(colspan=6) <br> #{count} snapshots   
+                        

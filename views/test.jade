@@ -1,0 +1,29 @@
+extends layout
+
+block content
+ -count=0
+  table 
+   caption Test History: #{testname} 
+    tbody 
+      thead
+       tr 
+        th Date
+        th Duration
+        th Model
+        th Result
+    each item in testlist
+        each test in item.testcase
+         -if(typeof(test.skipped) == 'undefined') 
+          -if(test._name == testname)
+               tr
+                  td=item._timestamp
+                  td=test._time
+                  td=item._model_path.replace(/^.*[\\\/]/, '')
+                  -if(typeof(test.failure) !== 'undefined')
+                    td.red Failed: #{test.failure._message} 
+                  -else
+                    td Passed
+               -count++ 
+    tfoot
+        tr
+        td(colspan=4) #{count} tests
